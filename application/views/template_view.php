@@ -20,7 +20,10 @@ Modified by VitalySwipe
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
 		<link href="http://fonts.googleapis.com/css?family=Kreon" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
-		<script src="/js/jquery-1.6.2.js" type="text/javascript"></script>
+		<script
+		src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous"></script>
 		<script type="text/javascript">
 		// return a random integer between 0 and number
 		function random(number) {
@@ -38,6 +41,8 @@ Modified by VitalySwipe
 			$( '.quote:eq(' + random(qlen-1) + ')' ).show(); //tag:eq(1)
 		});
 		</script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	</head>
 	<body>
 		<div id="wrapper">

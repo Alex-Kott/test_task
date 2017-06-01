@@ -1,5 +1,5 @@
 <?php
-include './application/models/model_portfolio.php';
+//include './application/models/model_candidate.php';
 
 class Controller_Vacancy extends Controller
 {
@@ -25,6 +25,8 @@ class Controller_Vacancy extends Controller
 	}
 
 	function action_add(){
+		$this->model = new Model_Vacancy();
+		$n  = $this->model->get_data();
 		$data = $_POST['form'];
 		if(isset($_POST['form'])){
 			

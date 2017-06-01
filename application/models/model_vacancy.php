@@ -2,9 +2,13 @@
 
 class Model_Vacancy extends Model
 {
+	public function __construct(){
+		$dbh = new PDO("pgsql:dbname=test_task;host=localhost", "postgres"); 
+	}
 	
 	public function get_data()
 	{	
+		
 		
 		// Здесь мы просто сэмулируем реальные данные.
 		

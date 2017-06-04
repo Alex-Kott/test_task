@@ -1,6 +1,5 @@
 <?php
 	echo $data;
-	die();
 
 	foreach($data as $row)
 	{

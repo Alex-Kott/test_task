@@ -1,6 +1,3 @@
-<?php
-var_dump($data);
-?>
 
 <form method="POST" role="form" action="/vacancy/add/">
 	<div class="form-group">
@@ -9,7 +6,7 @@ var_dump($data);
 	</div>
 	<div class="form-group">
 		<label for="Description">Description</label>
-		<textarea name="description" class="form-control" rows="5" id="description"></textarea>
+		<textarea name="form[description]" class="form-control" rows="5" id="description"></textarea>
 	</div>
 	<div class="form-group">
 		<label for="responsibilities">Responsibilities</label>

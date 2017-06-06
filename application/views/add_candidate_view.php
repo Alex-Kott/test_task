@@ -2,8 +2,9 @@
 if(isset($data['person'])){
 	$person = $data['person'];
 }
-var_dump($person);
+//var_dump($data);
 ?>
+
 
 <form method="POST" role="form" action="/candidate/add/">
 	<input type="hidden" name="form[id]" value="<?= isset($person) ? $person['id'] : ''?>">
@@ -47,7 +48,7 @@ var_dump($person);
 		<div class="form-group col-lg-12">
 			<label for="vacancies">Vacancies</label>
 			<div class="form-group ">
-				<select class="selectpicker col-lg-12" id="vacancies" name="form[vacancies][]" multiple>
+				<select class="col-lg-12 selectpicker vacancies" id="vacancies" name="form[vacancies][]" multiple>
 					<?php
 					foreach($data['vacancies'] as $vacId => $vacancy):
 					?>
@@ -55,7 +56,6 @@ var_dump($person);
 					<?php
 					endforeach;
 					?>
-					</select>
 				</select>
 			</div>
 		</div>
@@ -68,9 +68,8 @@ var_dump($person);
 	</div>
 </form>
 
-<script>
-	$(document).ready(function(){
-		$(".status").val(<?= isset($person) ? '"'.$person['status'].'"' : 'new'?>)
-	});
-	
+<script >
+	$(".status").val("<?= $person['status'] ?>");
+	$(".vacancies").val('val', ['<?= join("', '", $person["vacancies"]) ?>']);
+
 </script>

@@ -19,7 +19,7 @@ class Controller_Vacancy extends Controller
 	}
 
 	function action_list(){
-		$data = $this->model->get_vacancies();
+		$data['vacancies'] = $this->model->get_vacancies();
 		$this->view->generate('vacancy_list_view.php', 'template_view.php', $data);
 	}
 

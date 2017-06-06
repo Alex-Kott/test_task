@@ -16,6 +16,9 @@ class Model_Candidate extends Model
 		$stmt->bindParam(":lastdate", $form['lastdate']);
 		$stmt->bindParam(":status", $form['status']);
 		$stmt->execute();
+		$person = $this->get_person_by_email($form['email']);
+		var_dump($person);
+		return $person;
 	}
 
 	public function get_candidates(){
@@ -39,4 +42,13 @@ class Model_Candidate extends Model
 		$stmt->execute();
 		return $stmt->fetchALL(PDO::FETCH_UNIQUE);
 	}
+
+	public function get_person_by_email($email){
+		$sql = "SELECT * FROM candidate WHERE email = :email";
+		$stmt = $this->dbh->prepare($sql);
+		$stmt->bindParam(":email", $email);
+		$stmt->execute();
+		return $stmt->fetchALL(PDO::FETCH_UNIQUE);
+	}
+
 }

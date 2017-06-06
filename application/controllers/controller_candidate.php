@@ -29,7 +29,15 @@ class Controller_Candidate extends Controller
 	function action_add(){
 		if(isset($_POST['form'])){
 			$form = $_POST['form'];
-			$this->model->add($form);
+			$response = $this->model->add($form);
+			$vacancyModel = new Model_Vacancy();
+			if(isset($form['id'])){
+				$vacancyModel->linkVacanciesToCandidate($form['id'], $form['vacancies']);
+			} else {
+				foreach($response as $candId => $candidate){
+					$vacancyModel->linkVacanciesToCandidate($candId, $form['vacancies']);
+				}
+			}
 		} 
 
 		if(isset($_GET['id'])){
@@ -38,15 +46,19 @@ class Controller_Candidate extends Controller
 			$data['person'] = $person[$id];
 			$data['person']['id'] = $id;
 
+			$vacancyModel = new Model_Vacancy();
+			$vacancies = $vacancyModel->get_vacancies();
+			$data['vacancies'] = $vacancies;
+
+			$this->view->generate('add_candidate_view.php', 'template_view.php', $data);
+		} else {
+			$vacancyModel = new Model_Vacancy();
+			$vacancies = $vacancyModel->get_vacancies();
+			$data['vacancies'] = $vacancies;
 			$this->view->generate('add_candidate_view.php', 'template_view.php', $data);
 		}
-
-
-		$vacancyModel = new Model_Vacancy();
-		$vacancies = $vacancyModel->get_vacancies();
-		$data['vacancies'] = $vacancies;			
 		
-		$this->view->generate('add_candidate_view.php', 'template_view.php', $data);
+		//$this->view->generate('add_candidate_view.php', 'template_view.php', $data);
 	}
 
 }

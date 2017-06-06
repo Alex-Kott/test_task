@@ -24,4 +24,25 @@ class Model_Vacancy extends Model
 		$stmt->execute();
 		return $stmt->fetchALL(PDO::FETCH_UNIQUE);
 	}
+
+	public function linkVacanciesToCandidate($candId, $vacancies){
+		var_dump($candId);
+		var_dump($vacancies);
+		$sql = "INSERT INTO candvac(candid, vacid) VALUES (:candid, :vacid)";
+		foreach($vacancies as $key => $value){
+			$stmt = $this->dbh->prepare($sql);
+			$stmt->bindParam(":candid", $candId, PDO::PARAM_INT);
+			$stmt->bindParam(":vacid", $value, PDO::PARAM_INT);
+			$stmt->execute();
+			unset($stmt);
+		}
+	}
+
+	public function get_candidates_for_vacancy($vacId){
+		$sql = "SELECT * FROM candvac WHERE vacid = :vacid";
+		$stmt = $this->dbh->prepare($sql);
+		$stmt->bindParam(":vacid", $vacId, PDO::PARAM_INT);
+		$stmt->execute();
+		
+	}
 }

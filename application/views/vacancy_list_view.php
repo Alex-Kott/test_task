@@ -13,9 +13,9 @@
 	<div class="col-lg-4">
 		<div class="form-group">
 			<select class="selectpicker " id="filter" >
-				<option value="default">Any</option>
-				<option value="enable">Enable</option>
-				<option value="disable">Disable</option>
+				<option value="Any">Any</option>
+				<option value="Enable">Enable</option>
+				<option value="Disable">Disable</option>
 			</select>
 		</div>
 	</div>
@@ -36,7 +36,7 @@
 	<?php
 	foreach ($data['vacancies'] as $vacId => $vacancy):
 	?>
-	<tr>
+	<tr data-status="<?= $vacancy['active'] ? "Enable" : "Disable" ?>">
 		<th row="scope">
 			<a href="/vacancy/add/?id=<?= $vacId ?>">
 			<?= $vacancy['title'] ?>
@@ -123,6 +123,16 @@
         }
         results.appendChild(tbody);
     }
+
+    $("#filter").on("hidden.bs.select", function(e){
+    	var status = $(this).selectpicker('val');
+    	if(status == "Any"){
+    		$("tr").fadeIn(50);
+    	} else {
+    		$("tbody tr").fadeOut(50)
+    		$("tr[data-status="+status+"]").fadeIn(50)
+    	}
+    });
     
 </script>
 

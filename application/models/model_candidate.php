@@ -17,8 +17,25 @@ class Model_Candidate extends Model
 		$stmt->bindParam(":status", $form['status']);
 		$stmt->execute();
 		$person = $this->get_person_by_email($form['email']);
-		var_dump($person);
 		return $person;
+	}
+
+	public function update($form){
+		$sql = "UPDATE candidate SET name = :name,
+									 surname = :surname, 
+									 email = :email, 
+									 lastdate = :lastdate, 
+									 status = :status  
+									 WHERE id = :id";
+		$stmt = $this->dbh->prepare($sql);
+		$stmt->bindParam(":id", $form['id']);
+		$stmt->bindParam(":name", $form['name']);
+		$stmt->bindParam(":surname", $form['surname']);
+		$stmt->bindParam(":email", $form['email']);
+		$stmt->bindParam(":lastdate", $form['lastdate']);
+		$stmt->bindParam(":lastdate", $form['lastdate']);
+		$stmt->bindParam(":status", $form['status']);
+		$stmt->execute();
 	}
 
 	public function get_candidates(){

@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.6
 -- Dumped by pg_dump version 9.5.6
 
--- Started on 2017-06-05 04:24:42 MSK
+-- Started on 2017-06-07 04:20:53 MSK
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,7 +16,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2244 (class 1262 OID 32778)
+-- TOC entry 2251 (class 1262 OID 32778)
 -- Name: test_task; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -44,7 +44,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2247 (class 0 OID 0)
+-- TOC entry 2254 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -91,13 +91,26 @@ CREATE SEQUENCE candidate_id_seq
 ALTER TABLE candidate_id_seq OWNER TO test_user;
 
 --
--- TOC entry 2248 (class 0 OID 0)
+-- TOC entry 2255 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: candidate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: test_user
 --
 
 ALTER SEQUENCE candidate_id_seq OWNED BY candidate.id;
 
+
+--
+-- TOC entry 187 (class 1259 OID 40980)
+-- Name: candvac; Type: TABLE; Schema: public; Owner: test_user
+--
+
+CREATE TABLE candvac (
+    candid integer NOT NULL,
+    vacid integer NOT NULL
+);
+
+
+ALTER TABLE candvac OWNER TO test_user;
 
 --
 -- TOC entry 181 (class 1259 OID 32780)
@@ -135,7 +148,7 @@ ALTER TABLE users OWNER TO test_user;
 
 CREATE TABLE vacancy (
     id integer NOT NULL,
-    title character(64) NOT NULL,
+    title text NOT NULL,
     description text,
     responsibilities text,
     demands text,
@@ -162,7 +175,7 @@ CREATE SEQUENCE vacancy_id_seq
 ALTER TABLE vacancy_id_seq OWNER TO test_user;
 
 --
--- TOC entry 2249 (class 0 OID 0)
+-- TOC entry 2256 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: vacancy_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: test_user
 --
@@ -171,7 +184,7 @@ ALTER SEQUENCE vacancy_id_seq OWNED BY vacancy.id;
 
 
 --
--- TOC entry 2113 (class 2604 OID 32804)
+-- TOC entry 2117 (class 2604 OID 32804)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: test_user
 --
 
@@ -179,7 +192,7 @@ ALTER TABLE ONLY candidate ALTER COLUMN id SET DEFAULT nextval('candidate_id_seq
 
 
 --
--- TOC entry 2112 (class 2604 OID 32796)
+-- TOC entry 2116 (class 2604 OID 32796)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: test_user
 --
 
@@ -187,26 +200,47 @@ ALTER TABLE ONLY vacancy ALTER COLUMN id SET DEFAULT nextval('vacancy_id_seq'::r
 
 
 --
--- TOC entry 2239 (class 0 OID 32801)
+-- TOC entry 2245 (class 0 OID 32801)
 -- Dependencies: 186
 -- Data for Name: candidate; Type: TABLE DATA; Schema: public; Owner: test_user
 --
 
 COPY candidate (id, name, surname, email, lastdate, status) FROM stdin;
+39	Sam                                                             	Sirius                                                          	siriussam@lol.com                                               	2013-05-07	deferred
+40	Peter                                                           	Till                                                            	petertill@gmail.com                                             	1999-12-31	refused
+41	Slevin                                                          	Kelevra                                                         	slevinkelevra@gmail.com                                         	1995-12-03	new
 \.
 
 
 --
--- TOC entry 2250 (class 0 OID 0)
+-- TOC entry 2257 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: candidate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test_user
 --
 
-SELECT pg_catalog.setval('candidate_id_seq', 4, true);
+SELECT pg_catalog.setval('candidate_id_seq', 41, true);
 
 
 --
--- TOC entry 2251 (class 0 OID 0)
+-- TOC entry 2246 (class 0 OID 40980)
+-- Dependencies: 187
+-- Data for Name: candvac; Type: TABLE DATA; Schema: public; Owner: test_user
+--
+
+COPY candvac (candid, vacid) FROM stdin;
+39	16
+39	17
+40	14
+40	18
+41	14
+41	15
+41	16
+41	18
+\.
+
+
+--
+-- TOC entry 2258 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: user_ids; Type: SEQUENCE SET; Schema: public; Owner: test_user
 --
@@ -215,7 +249,7 @@ SELECT pg_catalog.setval('user_ids', 2, true);
 
 
 --
--- TOC entry 2235 (class 0 OID 32782)
+-- TOC entry 2241 (class 0 OID 32782)
 -- Dependencies: 182
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: test_user
 --
@@ -227,30 +261,31 @@ COPY users (id, login, password) FROM stdin;
 
 
 --
--- TOC entry 2236 (class 0 OID 32788)
+-- TOC entry 2242 (class 0 OID 32788)
 -- Dependencies: 183
 -- Data for Name: vacancy; Type: TABLE DATA; Schema: public; Owner: test_user
 --
 
 COPY vacancy (id, title, description, responsibilities, demands, salary, active) FROM stdin;
-6	dshvjdbjhd                                                      	iuhifudhiuhvisui	uhiuhiuhiuh		\N	\N
-7	duyguyguy                                                       	uygfrudyvguyg	uiygfdvuygu	uyguvdygsuyg\r\n	\N	\N
-8	rhiuhbiuhiu                                                     	iuhfdiksldnvlkdsj	kjnfdkljsnlkj	kjnlkjnlkjn	897786	\N
-9	rhiuhbiuhiu                                                     	iuhfdiksldnvlkdsj	kjnfdkljsnlkj	kjnlkjnlkjn	897786	t
+14	PHP-программист	Группа компаний "Tratata" - торгово-производственный холдинг, представляющий крупную розничную сеть магазинов стильной одежды "Tratata" , приглашает на постоянную работу PHP-программиста	Верстка HTML макетов, внесение исправлений и адаптация существующих макетов.\r\nНаписание JQuery-плагинов (периодически)\r\nСоздание новых компонентов CMS Joomla\r\nРазработка PLM системы и ее поддержка (инструменты PHP, JavaScript, mysql)\r\nПроектирование и реализация ресурсов БД\r\nРазработка бизнес-логики новых и существующих приложений\r\nУчастие в подготовке технических заданий, анализ компонентов приложений.\r\nВыявление объектов и свойств, методов их взаимодействия.	Образование - высшее/ неоконченное высшее/ средне-специальное.\r\nОпыт работы в Web-разработке от 1 года.\r\nУверенные знания HTML, CSS, Java Script, JQuery, PHP 5.x, технология AJAX.\r\nГлубокое понимание принципов ООП (знание UML - как плюс)!\r\nОпыт разработки CRM строго желателен!\r\nОпыт работы с базами данных MySQL, MSSQL (T-SQL), framework будет являться преимуществом.\r\nЗнания и умения применять другие языки программирования.\t\t\t\t\t	60000	t
+15	Developer (Android OR iOS)	Мы предлагаем:\r\nработу в компании с адекватным руководством и таким же отношением к сотрудникам;\r\nоплачиваемый фитнес;\r\nобучение английскому языку.\t\t\t\t\t	Вы будете:\r\nучаствовать в разработке и развитии очень ожидаемого десятками тысяч людей приложения;	знакомы с современными технологиями мобильной разработки;\r\nимеете опыт разработки коммерческого ПО под мобильные платформы;\r\nобладаете опытом разработки универсальных пользовательских интерфейсов под смартфоны и планшеты;\r\nвнимательны во всём;\r\nпоэтому напишете нам слово пинг в сопроводительном письме;\t\t\t\t\t\t\t\t\t\t	63728	f
+16	Программист 1С-Битрикс	\r\nДля разработки сайта требуется программист 1С Битрикс.\t\t\t\t\t	Программирование бэк енда для сайта на базе Битрикс Эксперт с нуля\r\nМодификация стандартной функциональности модулей, разработка новых модулей Битрикса\r\nПостроение оптимальной архитектуры БД сайта\r\nИнтеграция со сторонними сервисами (эквайринг)\r\nВозможность участия в доработке на этапе верстки макетов\r\nТестирование системы\t\t\t\t\t	Отличное знание платформы Битрикс\r\nРаботающие проекты, опыт работы от 3х лет\r\nФормализация концепций заказчика, составление ТЗ на этапы работы\r\nЗнания HTML, CSS, JavaScript, JQuery, AJAX, XML\r\nБазовые знания администрирования серверов (конфигурирование для быстрой настройки и запуска сайта)\t\t\t\t\t	80000	t
+17	Разработчик SharePoint 2013/2016	Участие в проектах по разработке и внедрению систем на базе SharePoint 2013/2016 в роли разработчика / архитектора / тимлида.\t\t\t\t\t	Проектировать решения\r\nРазрабатывать прототипы решений\r\nРеализовывать функциональность системы\r\nВнедрять лучшие практики и подходы\t\t\t\t\t	Опыт разработки по SharePoint 2013/2016\r\nЗнание AngularJS v1 или v2 (опционально Kendo UI, KnockoutJS)\r\nОпыт командной разработки (несколько разработчиков на проекте)\r\nОпыт работы в распределенной команде\r\nОпыт работы с системами контроля версий\t\t\t\t\t	90000	t
+18	Ведущий разработчик Python	Интернет-агрегатор недвижимости и строительства ищет ведущего разработчика.\t\t\t\t\t	Проектирование архитектуры и определение технологического стека,\r\nРазработка и тестирование ПО,\r\nПостановка, оценка и контроль выполнения задач,\r\nПоддержка существующего ПО проектов,\r\nДокументирование разработанного ПО.\t\t\t\t\t	Отличное знание Python и Django framework\r\nЗнание PostgreSQL,\r\nОпыт работы с Celery, Docker,\r\nСистемный подход к решению задач,\r\nУмение планировать свою работу и достигать результатов в срок,\r\nУверенная работа с git и другими инструментами разработчика,\r\nОпыт написания Unit-тестов.\t\t\t\t\t	99000	\N
 \.
 
 
 --
--- TOC entry 2252 (class 0 OID 0)
+-- TOC entry 2259 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: vacancy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test_user
 --
 
-SELECT pg_catalog.setval('vacancy_id_seq', 9, true);
+SELECT pg_catalog.setval('vacancy_id_seq', 18, true);
 
 
 --
--- TOC entry 2119 (class 2606 OID 32806)
+-- TOC entry 2123 (class 2606 OID 32806)
 -- Name: candidate_pkey; Type: CONSTRAINT; Schema: public; Owner: test_user
 --
 
@@ -259,7 +294,16 @@ ALTER TABLE ONLY candidate
 
 
 --
--- TOC entry 2115 (class 2606 OID 32787)
+-- TOC entry 2125 (class 2606 OID 40984)
+-- Name: candvac_pkey; Type: CONSTRAINT; Schema: public; Owner: test_user
+--
+
+ALTER TABLE ONLY candvac
+    ADD CONSTRAINT candvac_pkey PRIMARY KEY (candid, vacid);
+
+
+--
+-- TOC entry 2119 (class 2606 OID 32787)
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: test_user
 --
 
@@ -268,7 +312,7 @@ ALTER TABLE ONLY users
 
 
 --
--- TOC entry 2117 (class 2606 OID 32798)
+-- TOC entry 2121 (class 2606 OID 32798)
 -- Name: vacancy_pkey; Type: CONSTRAINT; Schema: public; Owner: test_user
 --
 
@@ -277,7 +321,7 @@ ALTER TABLE ONLY vacancy
 
 
 --
--- TOC entry 2246 (class 0 OID 0)
+-- TOC entry 2253 (class 0 OID 0)
 -- Dependencies: 7
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -288,7 +332,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2017-06-05 04:24:47 MSK
+-- Completed on 2017-06-07 04:20:56 MSK
 
 --
 -- PostgreSQL database dump complete

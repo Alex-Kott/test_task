@@ -27,15 +27,18 @@ class Controller_Candidate extends Controller
 	}
 
 	function action_add(){
+		$data = array();
 		if(isset($_POST['form'])){
 			$form = $_POST['form'];
-			$response = $this->model->add($form);
 			$vacancyModel = new Model_Vacancy();
-			if(isset($form['id'])){
+			if($form['id'] != ''){
+				$this->model->update($form);
 				$vacancyModel->linkVacanciesToCandidate($form['id'], $form['vacancies']);
 			} else {
-				foreach($response as $candId => $candidate){
-					$vacancyModel->linkVacanciesToCandidate($candId, $form['vacancies']);
+				$response = $this->model->add($form);
+				$candId = array_keys($response);
+				if(!empty($form['vacancies'])){
+					$vacancyModel->linkVacanciesToCandidate($candId[0], $form['vacancies']);
 				}
 			}
 		} 
@@ -49,7 +52,8 @@ class Controller_Candidate extends Controller
 			$vacancyModel = new Model_Vacancy();
 			$vacancies = $vacancyModel->get_vacancies();
 			$data['vacancies'] = $vacancies;
-
+			$data['person']['vacancies'] = $vacancyModel->get_vacancies_for_cand($id); //vacs_for_cand -- vacancies for 
+																				//candidate. придумывать краткие, но ёмкие имена переменным -- это боль.
 			$this->view->generate('add_candidate_view.php', 'template_view.php', $data);
 		} else {
 			$vacancyModel = new Model_Vacancy();
@@ -58,7 +62,6 @@ class Controller_Candidate extends Controller
 			$this->view->generate('add_candidate_view.php', 'template_view.php', $data);
 		}
 		
-		//$this->view->generate('add_candidate_view.php', 'template_view.php', $data);
 	}
 
 }

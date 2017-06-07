@@ -7,27 +7,27 @@ if(isset($data['person'])){
 
 
 <form method="POST" role="form" action="/candidate/add/">
-	<input type="hidden" name="form[id]" value="<?= isset($person) ? $person['id'] : ''?>">
+	<input type="hidden" name="form[id]" value="<?= isset($person) ? $person['id'] : ''?>" required>
 	<div class="form-group">
 		<div class="form-group col-lg-6">
 			<label for="name">Name</label>
-			<input name="form[name]" type="text" name="form[name]" class="form-control" id="name" value="<?= isset($person) ? $person['name'] : ''?>"> 
+			<input name="form[name]" type="text" name="form[name]" class="form-control" id="name" value="<?= isset($person) ? $person['name'] : ''?>" required autofocus> 
 		</div>
 		<div class="form-group col-lg-6">
 			<label for="surname">Surname</label>
-			<input name="form[surname]" type="text" name="form[surname]" class="form-control" id="surname"  value="<?= isset($person) ? $person['surname'] : ''?>"> 
+			<input name="form[surname]" type="text" name="form[surname]" class="form-control" id="surname"  value="<?= isset($person) ? $person['surname'] : ''?>" required> 
 		</div>
 	</div>
 	<div class="form-group">
 		<div class="form-group col-lg-12">
 			<label for="email">Email</label>
-			<input type="email" name="form[email]" class="form-control" rows="5" id="email" value="<?= isset($person) ? $person['email'] : ''?>">
+			<input type="email" name="form[email]" class="form-control" rows="5" id="email" value="<?= isset($person) ? $person['email'] : ''?>" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<div class="form-group col-lg-6">
 			<label for="lastdate">Last contact date</label>
-			<input type="date" name="form[lastdate]" class="form-control" rows="5" id="lastdate"  value="<?= isset($person) ? $person['lastdate'] : ''?>">
+			<input type="date" name="form[lastdate]" class="form-control" rows="5" id="lastdate"  value="<?= isset($person) ? $person['lastdate'] : ''?>" required>
 		</div>
 		<div class="form-group col-lg-6">
 			<label for="status">Status</label>
@@ -70,6 +70,6 @@ if(isset($data['person'])){
 
 <script >
 	$(".status").val("<?= $person['status'] ?>");
-	$(".vacancies").val('val', ['<?= join("', '", $person["vacancies"]) ?>']);
+	$(".vacancies").selectpicker('val', ['<?= join("', '", array_keys($person["vacancies"])) ?>']);
 
 </script>

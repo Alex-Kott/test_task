@@ -14,7 +14,7 @@
 		<label for="filter">Status</label>
 		<div class="form-group">
 			<select class="selectpicker " id="filter" >
-				<option value="default">Any</option>
+				<option value="any">Any</option>
 				<option value="new">New</option>
 				<option value="invited">Invited</option>
 				<option value="accepted">Accepted</option>
@@ -41,7 +41,7 @@
 	<?php
 	foreach ($data['candidates'] as $candId => $candidate):
 	?>
-	<tr>
+	<tr data-status="<?= $candidate['status'] ?>">
 		<th row="scope">
 			<a href="/candidate/add/?id=<?= $candId ?>">
 			<?= $candidate['name'] ?> <?= $candidate['surname'] ?>
@@ -128,6 +128,16 @@
         }
         results.appendChild(tbody);
     }
+
+    $("#filter").on("hidden.bs.select", function(e){
+    	var status = $(this).selectpicker('val');
+    	if(status == "any"){
+    		$("tr").fadeIn(50);
+    	} else {
+    		$("tbody tr").fadeOut(50)
+    		$("tr[data-status="+status+"]").fadeIn(50)
+    	}
+    });
     
 </script>
 
